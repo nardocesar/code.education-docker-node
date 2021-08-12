@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  application:
+    build: ./application
+    networks:
+      - fcnetwork
+    volumes:
+      - ./application:/usr/src/application
+    tty: true
+    container_name: node_application
+    ports:
+      - "3000:3000"
+  database:
+    image: "mysql:latest"
+    command: "--innodb-use-native-aio=0"
+    container_name: "database"
+    restart: "always"
+    tty: true
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - fcnetwork
+  # nginx:
+networks:
+  fcnetwork:
+    driver: bridge

@@ -1,0 +1,9 @@
+FROM node:latest
+
+WORKDIR /usr/src/application
+
+EXPOSE 3000
+
+COPY . .
+
+CMD ["node", "."]
