@@ -11,6 +11,10 @@ services:
     container_name: node_application
     ports:
       - "3000:3000"
+    depends_on:
+      - database
+    entrypoint: dockerize -wait tcp://database:3306 -timeout 30s docker-entrypoint.sh
+
   database:
     image: "mysql:latest"
     command: "--innodb-use-native-aio=0"
@@ -24,7 +28,9 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - fcnetwork
+
   # nginx:
+
 networks:
   fcnetwork:
     driver: bridge
