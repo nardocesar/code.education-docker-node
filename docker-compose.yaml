@@ -32,7 +32,16 @@ services:
     networks:
       - fcnetwork
 
-  # nginx:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - application
+    networks:
+      - fcnetwork
 
 networks:
   fcnetwork:
