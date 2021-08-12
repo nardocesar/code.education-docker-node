@@ -2,18 +2,21 @@ version: "3"
 
 services:
   application:
-    build: ./application
+    container_name: application
+    build:
+      context: ./application
+      dockerfile: Dockerfile.prod
     networks:
       - fcnetwork
     volumes:
       - ./application:/usr/src/application
     tty: true
-    container_name: node_application
     ports:
       - "3000:3000"
     depends_on:
       - database
     entrypoint: dockerize -wait tcp://database:3306 -timeout 30s docker-entrypoint.sh
+    command: node .
 
   database:
     image: "mysql:latest"
